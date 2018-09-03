@@ -1,0 +1,6 @@
+{
+  "appId": "com.holidays.app",
+  "appName": "Holidays",
+  "bundledWebRuntime": false,
+  "webDir": "build"
+}
