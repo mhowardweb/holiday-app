@@ -1,51 +1,56 @@
 import React from 'react';
+import Joi from 'joi-browser';
 import Header from './header';
+import Form from './common/form';
 
-const AddHoliday = () => (
-  <React.Fragment>
-    <Header headerTitle="Add a Holiday" />
-    <ion-content padding fullscreen>
-      <ion-card padding>
-        <ion-card-title>New/Edit Holiday</ion-card-title>
-        <ion-item>
-          <ion-label>Hol Name</ion-label>
-          <ion-input required type="text" placeholder="hol name" />
-        </ion-item>
-        <ion-text color="danger">
-          <h6>You need to enter a holiday Name</h6>
-        </ion-text>
+class AddHoliday extends Form {
+  state = {
+    data: {
+      holname: '',
+      holstart: '',
+      holend: '',
+      daysbooked: 0,
+      notes: '',
+    },
+    errors: {},
+  };
 
-        <ion-item>
-          <ion-label>Holiday Start</ion-label>
+  schema = {
+    holname: Joi.string()
+      .required()
+      .min(3)
+      .label('Holiday Name'),
+    notes: Joi.string()
+      .required()
+      .min(4)
+      .label('Notes'),
+  };
 
-          <ion-datetime display-format="DD/MM/YYYY" min="2018" picker-format="DD MMMM YYYY" />
-        </ion-item>
-        <ion-text color="danger">
-          <h6>You need to enter the start</h6>
-        </ion-text>
+  doSubmit = () => {
+    const { data } = this.state;
+    console.log(data);
+  };
 
-        <ion-item>
-          <ion-label>Holiday End</ion-label>
-          <ion-datetime display-format="DD/MM/YYYY" max="2025" picker-format="DD MMMM YYYY" />
-        </ion-item>
-        <ion-text color="danger">
-          <h6>You need to enter the end</h6>
-        </ion-text>
-
-        <ion-item>
-          <ion-label>Days Booked: </ion-label>
-        </ion-item>
-
-        <ion-item>
-          <ion-label position="floating">Notes:</ion-label>
-          <ion-textarea />
-        </ion-item>
-        <ion-item>
-          <ion-button>Add / Edit</ion-button>
-        </ion-item>
-      </ion-card>
-    </ion-content>
-  </React.Fragment>
-);
+  render() {
+    return (
+      <React.Fragment>
+        <Header headerTitle="Add a Holiday" />
+        <ion-content padding fullscreen>
+          <form onSubmit={this.handleSubmit}>
+            <ion-card padding>
+              <ion-card-title>New/Edit Holiday</ion-card-title>
+              {this.renderInput('holname', 'Hol Name', 'text', 'text')}
+              {this.renderDateTime('holstart', 'Holiday Start', 'DD/MM/YYYY', 'DDMMYYYY')}
+              {this.renderDateTime('holend', 'Holiday End', 'DD/MM/YYYY', 'DDMMYYYY')}
+              {this.renderRange('daysbooked', 'Days Booked', '1', '30', '1', 'primary')}
+              {this.renderTextArea('notes', 'Notes')}
+              {this.renderButton('Add')}
+            </ion-card>
+          </form>
+        </ion-content>
+      </React.Fragment>
+    );
+  }
+}
 
 export default AddHoliday;
