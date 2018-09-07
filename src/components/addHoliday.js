@@ -2,6 +2,7 @@ import React from 'react';
 import Joi from 'joi-browser';
 import Header from './header';
 import Form from './common/form';
+import { saveHolidays } from '../services/storeApi';
 
 class AddHoliday extends Form {
   state = {
@@ -12,6 +13,7 @@ class AddHoliday extends Form {
       daysbooked: 0,
       notes: '',
     },
+    holList: [],
     errors: {},
   };
 
@@ -28,7 +30,11 @@ class AddHoliday extends Form {
 
   doSubmit = () => {
     const { data } = this.state;
-    console.log(data);
+    const list = [{ start: '01/01/2018', end: '10/01/2018', details: 'holiday' }];
+    list.push(data);
+    this.setState({ list });
+    console.log(list);
+    saveHolidays(list);
   };
 
   render() {
@@ -45,8 +51,10 @@ class AddHoliday extends Form {
               {this.renderRange('daysbooked', 'Days Booked', '1', '30', '1', 'primary')}
               {this.renderTextArea('notes', 'Notes')}
               {this.renderButton('Add')}
+              <ion-button onClick={this.doSubmit}>sub</ion-button>
             </ion-card>
           </form>
+          <ion-range />
         </ion-content>
       </React.Fragment>
     );

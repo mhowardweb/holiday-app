@@ -57,7 +57,7 @@ class Form extends Component {
 
   renderButton(label, color) {
     return (
-      <ion-button type="submit" disabled={this.validate()} color={color}>
+      <ion-button type="submit" disabled="false" color={color}>
         {label}
       </ion-button>
     );
@@ -90,8 +90,8 @@ class Form extends Component {
    * @param {*} type
    * @param {*} inputmode
    */
-  renderInput(name, label, type = 'text', inputmode = 'text') {
-    const { data, errors } = this.state;
+  renderInput(name, label, data, type = 'text', inputmode = 'text') {
+    const { errors } = this.state;
     return (
       <Input
         type={type}
@@ -117,7 +117,7 @@ class Form extends Component {
         name={name}
         value={data[name]}
         label={label}
-        ionBlur={this.handleChange}
+        handleChange={this.handleChange}
         error={errors[name]}
       />
     );
@@ -139,13 +139,14 @@ class Form extends Component {
     );
   }
 
-  renderCheckbox(name, label, color) {
-    const { data, errors } = this.state;
+  renderCheckbox(name, label, color, data) {
+    const { errors } = this.state;
     return (
       <Checkbox
         name={name}
         label={label}
         color={color}
+        checked={data[name]}
         value={data[name]}
         onChange={this.handleChange}
         error={errors[name]}
@@ -160,7 +161,7 @@ class Form extends Component {
         name={name}
         label={label}
         value={data[name]}
-        onChange={this.handleChange}
+        onInput={this.handleChange}
         error={errors[name]}
       />
     );

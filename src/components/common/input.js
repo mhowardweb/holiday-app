@@ -5,12 +5,12 @@ import React from 'react';
  */
 
 const Input = ({
-  name, label, error, ...rest
+  name, label, error, data, ...rest
 }) => (
   <ion-card-content>
     <ion-item>
       <ion-label>{label}</ion-label>
-      <ion-input {...rest} name={name} />
+      <ion-input value={data} {...rest} name={name} />
     </ion-item>
     {error && <ion-label color="danger">{error}</ion-label>}
   </ion-card-content>

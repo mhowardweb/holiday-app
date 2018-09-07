@@ -1,17 +1,45 @@
 import React, { Component } from 'react';
 import Header from './header';
+import { saveHolidays, loadHolidays } from '../services/storeApi';
 
 class HolidaySummary extends Component {
   state = {
     data: {
-      daystaken: 0,
-      daysremaining: 0,
-      yearend: '03/2019',
+      daystaken: 5,
+      daysremaining: 10,
+      yearEnd: '03/2020',
+    },
+    hols: {
+      start: '06/09/2018',
+      end: '10/09/2018',
+      details: 'hols1',
     },
   };
 
+  componentDidMount() {
+    const myData = this.state;
+    // this.hydrateStateWithLocalStorage(myData);
+    // saveStateToLocalStorage();
+    const hols = loadHolidays();
+    console.log(hols);
+  }
+
+  hydrateStateWithLocalStorage = (data) => {
+    for (const key in data) {
+      if (localStorage.hasOwnProperty(key)) {
+        let value = localStorage.getItem(key);
+        try {
+          value = JSON.parse(value);
+          return this.setState({ [key]: value });
+        } catch (e) {
+          return this.setState({ [key]: value });
+        }
+      }
+    }
+  };
+
   render() {
-    const { data } = this.state;
+    const { data, hols } = this.state;
     return (
       <React.Fragment>
         <Header headerTitle="Holiday Summary" />
@@ -29,7 +57,7 @@ class HolidaySummary extends Component {
 
             <ion-item>
               <ion-label>Year End:</ion-label>
-              <ion-label>{data.yearend}</ion-label>
+              <ion-label>{data.yearEnd}</ion-label>
             </ion-item>
 
             <ion-item padding-top>
@@ -46,9 +74,9 @@ class HolidaySummary extends Component {
               </ion-row>
 
               <ion-row>
-                <ion-col>24/09/2018</ion-col>
-                <ion-col>27/09/2018</ion-col>
-                <ion-col>Trip to Bournemouth</ion-col>
+                <ion-col>{hols.start}</ion-col>
+                <ion-col>{hols.end}</ion-col>
+                <ion-col>{hols.details}</ion-col>
               </ion-row>
             </ion-grid>
           </ion-card>
